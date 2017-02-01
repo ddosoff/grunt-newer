@@ -128,6 +128,7 @@ The `newer` task determines which files to include for a specific task based on 
  * **details** - `Object`
    * **task** - `string` The currently running task name.
    * **target** - `string` The currently running target name.
+   * **config** - `Object` The currently running target config.
    * **path** - `string` The path to a `src` file that appears to be "older" (not modified since the time below).
    * **time** - `Date` The comparison time.  For tasks with `dest` files, this is the modification time of the `dest` file.  For tasks without `dest` files, this is the last successful run time of the same task.
  * **include** - `function(boolean)` A callback that determines whether this `src` file should be included.  Call with `true` to include or `false` to exclude the file.

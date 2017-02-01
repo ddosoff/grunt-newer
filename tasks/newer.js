@@ -103,6 +103,7 @@ function createTask(grunt) {
       var details = {
         task: taskName,
         target: targetName,
+        config: config,
         path: filePath,
         time: time
       };
