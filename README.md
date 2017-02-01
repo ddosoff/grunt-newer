@@ -141,6 +141,7 @@ Example use of the `override` option:
       options: {
         override: function(detail, callback) {
           var include;
+          // Check additional deps from target config
           if (detail.config.deps) {
             detail.config.deps.forEach(function(fn) {
               var ts = fs.statSync(fn).mtime;
@@ -152,8 +153,9 @@ Example use of the `override` option:
               }
             }, this);
           }
+          // Check modified imports for less tasks
           if (!include && detail.task === 'less') {
-            checkForModifiedImports(detail.path, detail.time, include);
+            include = hasModifiedImports(detail.path, detail.time);
           }
           callback(include);
         }
