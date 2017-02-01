@@ -139,12 +139,23 @@ Example use of the `override` option:
   grunt.initConfig({
     newer: {
       options: {
-        override: function(detail, include) {
-          if (detail.task === 'less') {
-            checkForModifiedImports(detail.path, detail.time, include);
-          } else {
-            include(false);
+        override: function(detail, callback) {
+          var include;
+          if (detail.config.deps) {
+            detail.config.deps.forEach(function(fn) {
+              var ts = fs.statSync(fn).mtime;
+              var difference = detail.time - ts;
+              if(difference < this.tolerance ) {
+                console.log(detail.path + ' has a newer dependency ' + fn);
+                include = true;
+                return false;
+              }
+            }, this);
           }
+          if (!include && detail.task === 'less') {
+            checkForModifiedImports(detail.path, detail.time, include);
+          }
+          callback(include);
         }
       }
     }
